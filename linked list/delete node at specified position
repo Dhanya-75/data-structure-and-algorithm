@@ -1,0 +1,73 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+    int data;
+    struct node *next;
+};
+struct node *head=NULL;
+void append(int data)
+{
+    struct node *newnode=malloc(sizeof(struct node));
+    newnode->data=data;
+    newnode->next=NULL;
+    if(head==NULL)
+    {
+        head=newnode;
+    }
+    else
+    {
+        struct node *temp=head;
+        while(temp->next !=NULL)
+        {
+            temp=temp->next;
+        }
+        temp->next=newnode;
+    }
+}
+void deleteatpos(int pos)
+{
+    struct node *temp = head, *prev = NULL;
+    if (head == NULL)
+        return;
+    if (pos == 1)
+    {
+        head = temp->next;
+        free(temp);
+        return;
+    }
+    for (int i = 1; i < pos && temp != NULL; i++)
+    {
+        prev = temp;
+        temp = temp->next;
+    }
+    if (temp == NULL)
+        return;
+    prev->next = temp->next;
+    free(temp);
+}
+void display()
+{
+    struct node *temp=head;
+    while(temp!=NULL)
+    {
+        printf("%d ",temp->data);
+        temp=temp->next;
+    }
+}
+int main()
+{
+    int n,pos,data;
+    scanf("%d",&n);
+    for(int i=0;i<n;i++)
+    {
+        scanf("%d",&data);
+        if(data>0)
+        {
+            append(data);
+        }
+    }
+    scanf("%d",&pos);
+    deleteatpos(pos);
+    display();
+}
